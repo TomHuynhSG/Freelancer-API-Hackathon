@@ -4,14 +4,25 @@ import requests
 import sys
 
 # UPDATE these variables for each new client
-client_secret = '10717f462f4d7fa316b3f1a08788e8f3d832b4a5b6b79a292ad3edf140a885fd7144ad6556ec1728335ca12d35a4489e3f4d5b8ac85c90d4847504459fc8387d'
-client_id = '25504b28-6d2b-4b84-8ede-83bb286b19ad'
+#client_secret = '10717f462f4d7fa316b3f1a08788e8f3d832b4a5b6b79a292ad3edf140a885fd7144ad6556ec1728335ca12d35a4489e3f4d5b8ac85c90d4847504459fc8387d'
+#client_id = '25504b28-6d2b-4b84-8ede-83bb286b19ad'
+#REAL ONE
+client_secret = sys.argv[1]
+client_id = sys.argv[2]
 
 #UPDATE url,redirect
-oauth_uri = 'https://accounts.freelancer-sandbox.com/oauth/authorise'
-redirect_uri = 'http://127.0.0.1:9000/auth'
+#oauth_uri = 'https://accounts.freelancer-sandbox.com/oauth/authorise'
+#REAL ONE
+oauth_uri = 'https://accounts.freelancer.com/oauth/authorise'
+
+#testing in Evelyn's laptop
+#redirect_uri = 'http://127.0.0.1:9000/auth'
+#REAL ONE
+redirect_uri = sys.argv[3]
+
 prompt = 'select_account consent'
 advanced_scopes = '1%202%203%204%205%206' # %20 is used to represent space in HTML
+accesstokenreal = None
 
 app = Flask(__name__)
 
@@ -31,6 +42,7 @@ def handle_authorize():
 # The endpoint waiting to receive the authorisation grant code
 @app.route('/auth')
 def handle_redirect():
+    global accesstokenreal
     authorisation_code = request.args['code']
 
     payload = {
@@ -44,9 +56,11 @@ def handle_redirect():
     #UPDATE the link
     response = requests.post('https://accounts.freelancer-sandbox.com/oauth/token', data=payload)
     result = response.json()
-    access_token = result['access_token']
-    return access_token
+    accesstokenreal = result['access_token']
     
-if __name__ == '__main__':
-	app.secret_key = os.urandom(12)
-	app.run(debug=True, use_reloader=True, port=9000)
+    
+#if __name__ == '__main__':
+#	app.secret_key = os.urandom(12)
+#	app.run(debug=True, use_reloader=True, port=9000)
+app.secret_key = os.urandom(12)
+app.run(debug=True, use_reloader=True, port=9000)

@@ -1,8 +1,9 @@
 import requests
 from LowBid import findwinner
+import sys
 
-projectid = input()
-access = input()
+projectid = sys.argv[1]
+access = sys.argv[2]
 #for test purposes only
 #projectid = 15339034
 #access = "6rpFBq8OYfmkd5s9siF8ZZExBnQgZe"
