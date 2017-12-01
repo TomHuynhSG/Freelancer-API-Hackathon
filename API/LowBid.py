@@ -2,10 +2,11 @@ import requests
 import json
 
 def findwinner(projectid, access):
-	
+	#UPDATE the url
 	url = 'https://www.freelancer-sandbox.com/api/projects/0.1/projects/'+ str(projectid) +'/bids/' #+ intl
-
-	head = {"Freelancer-OAuth-V1": "6rpFBq8OYfmkd5s9siF8ZZExBnQgZe", "Content-Type": "application/json"} #change the freelancer aouth with access
+	#for testing purposes only
+	#accessd = "6rpFBq8OYfmkd5s9siF8ZZExBnQgZe"
+	head = {"Freelancer-OAuth-V1": access, "Content-Type": "application/json"} #change the freelancer aouth with access
 	r = requests.get(url, headers = head)
 	#print(r.content)
 	listbids = json.loads(r.content)
